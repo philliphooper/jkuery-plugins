@@ -27,14 +27,40 @@
 		}
 	};
 	
-	$.fn.selectFilter = function( method ) {
-	    if ( methods[method] ) {
-			return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
-		} else if ( typeof method === 'object' || ! method ) {
-			return methods.init.apply( this, arguments );
-		} else {
-			$.error( 'Method ' +  method + ' does not exist on jQuery.selectFilter' );
-		}    
+	$.selectFilter = function(element, options){
+		this.options = {};
 		
+		element.data('selectFilter', this);
+		
+		this.init = function(element, options){
+			this.options = $.extend({}, $.selectFilter.defaultOptions, options);
+			
+			//Manipulate element here...
+		};
+		
+		this.init(element, options);
 	};
+	
+	$.fn.selectFilter = function(options){		
+		return this.each(function() {
+			(new $.selectFilter($(this), options));
+		});
+	};
+	
+	$.selectFilter.defaultOptions = {
+		singlewildcard: ['_','.'],
+		multiwildcard: ['%','*'],
+		trim: [' ']
+	}
+	
+	// $.fn.selectFilter = function( method ) {
+	    // if ( methods[method] ) {
+			// return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+		// } else if ( typeof method === 'object' || ! method ) {
+			// return methods.init.apply( this, arguments );
+		// } else {
+			// $.error( 'Method ' +  method + ' does not exist on jQuery.selectFilter' );
+		// }    
+	// };
+	
 })( jQuery );
