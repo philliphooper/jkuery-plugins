@@ -23,6 +23,7 @@
 					}				
 				})
 				$(newFilterCountID).text(' (' + results + ')')
+				alert('git test')
 			})
 		}
 	};
